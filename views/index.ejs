@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="center" id="alert">
+        <span  class="alert">maximin size reached</span>
+    </div>
+    <div class="center_con">
+        <div class="container">
+            <div class="header">
+                <h1>Book your seat's</h1>
+            </div>
+            <div class="msg_con">
+                <span class="msg one"></span>
+                <span class="msg two"></span>
+                <span class="msg tre"></span>
+            </div>
+            <div class="form">
+                <form action="/update" method="post" id="form_book">
+                    
+                    <%
+                        for(var i =0; i<data.length;i++){
+                            if(data[i].status){  
+                    %>
+                        <label>
+                            <input type="checkbox" class="box" id="<%=data[i]._id%>" onchange="check_booked('<%=data[i]._id%>')" value ="<%=data[i]._id%>" name="data[]" >
+                            <span id="value"> </span>
+                        </label>
+                    <%
+                        }else{
+                    %>
+                        <div class="booked_div"  name="<%=data[i]._id%>"></div>
+                    <%
+                        }
+                        if(i+1%7===0 && i>0){
+                    %>
+                        <br>
+                    <%
+                        }
+                    }
+                    %>
+                    <button type="submit" id="btn" class="btn">
+                        Book Now
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var checked_arr = [];
+    var box = document.getElementsByClassName('box');
+    var btn = document.getElementById('btn');
+    var msg = document.getElementById("alert");
+    function check_booked(id){
+        var seat = document.getElementById(id);
+        if(seat.checked == true){
+            checked_arr.push(id);
+        }else{
+            checked_arr = checked_arr.filter(el => el!== id)
+        }
+        if(checked_arr.length>7){
+            msg.style.display="flex";
+            btn.disabled = true;
+            btn.classList.add("disabled");
+
+        }else{
+            msg.style.display="none";
+            btn.disabled = false;
+            btn.classList.remove("disabled");
+        }
+    }
+</script>
